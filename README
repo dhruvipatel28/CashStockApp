@@ -1,0 +1,50 @@
+
+
+
+
+
+** ** ** ** The architectural approach you took and why
+
+- This Application is using MVVM architecture using Kotlin : (Efficiently display large sets of data)
+- Application is using 100% Kotlin : (Kotlin is Android's recommended programming language for modern android development)
+- To consume API - Retrofit to process of receiving, and creating HTTP requests and responses :( best practice )
+- A coroutine design pattern used to simplify code that executes asynchronously
+    (coroutines help to manage long-running tasks that might otherwise block the main thread and cause your app to become unresponsive.
+     Over 50% of professional developers who use coroutines have reported seeing increased productivity.)
+- Used RecyclerView to show the list of Stock Data
+    (RecyclerView library dynamically creates the elements when they're needed.
+    As the name implies, RecyclerView recycles those individual elements.)
+
+
+** ** ** ** The trade offs you made and why
+
+- None
+
+** ** ** ** How to run your project
+
+- Download/ Clone the Project to Android Studio
+- Clean and Build The Project
+- Create/Run Emulator on the Android Studio
+- Run The Project
+
+
+** ** ** ** 3rd party libraries or copied code you may have used
+Reference Links:
+
+https://www.youtube.com/
+https://developer.android.com
+https://square.github.io/retrofit/
+https://stackoverflow.com
+https://github.com/square/retrofit/issues/3004
+
+Images:
+http://www.simsnd.in/results
+
+
+** ** ** ** Any other information that you would like us to know
+
+Clickable Links ->
+
+-  See My Profile : portfolio.json API
+-  Empty State : portfolio_empty.json
+-  Malformed Data : portfolio_malformed.json

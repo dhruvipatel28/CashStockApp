@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CashStockApp</string>
+
+    <string name="current_price">Current Price:</string>
+    <string name="last_update">Last Update:</string>
+    <string name="quantity">Quantity:</string>
+
+    <string name="see_more">See My Profile</string>
+    <string name="see_less">Empty State</string>
+    <string name="try_again">Malformed Data</string>
+    <string name="malformed_data">Malformed Data</string>
+    <string name="no_data">No Data Found</string>
+</resources>
