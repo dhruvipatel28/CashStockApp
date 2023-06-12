@@ -15,9 +15,10 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class StockAdapter(private val dataSet: ArrayList<Stock>) :
+class StockAdapter(private var dataSet: ArrayList<Stock>) :
     RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
     lateinit var binding : ItemViewBinding
@@ -40,7 +41,7 @@ class StockAdapter(private val dataSet: ArrayList<Stock>) :
         viewHolder.view.valCurrentPrice.text = getStockPrice(dataSet[position])
         viewHolder.view.valLastUpdate.text = getStockLastUpdateData(dataSet[position])
 
-        if(dataSet[position].quantity != null){
+        if(dataSet[position].quantity!! != null){
             viewHolder.view.valQuantity.text = dataSet[position].quantity.toString()
         }else{
             viewHolder.view.lblQuantity.visibility = View.GONE
@@ -72,5 +73,10 @@ class StockAdapter(private val dataSet: ArrayList<Stock>) :
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() =  dataSet.size
 
+    // filtering our recyclerview items.
+    fun showFilteredData(filterDataList : ArrayList<Stock>){
+        dataSet = filterDataList
+        notifyDataSetChanged()
+    }
 
 }
