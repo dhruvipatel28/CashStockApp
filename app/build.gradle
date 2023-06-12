@@ -105,8 +105,7 @@ dependencies {
 
     // for adding card view
     implementation 'androidx.cardview:cardview:1.0.0'
-
-    // Images references
-    //https://depositphotos.com/vector-images/corporate-background.html
-    //https://www.vectorstock.com/royalty-free-vectors/no-data-found-vectors
+    
+    // Swipe Down Refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
 }

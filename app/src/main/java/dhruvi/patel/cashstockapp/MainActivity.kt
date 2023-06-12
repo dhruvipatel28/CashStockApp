@@ -18,13 +18,12 @@ import dhruvi.patel.cashstockapp.viewmodels.MainViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var  binding : ActivityMainBinding
-    lateinit var stockService : StockService
-    lateinit var stockRepository : StockRepository
+    private lateinit var  binding : ActivityMainBinding
+    private lateinit var stockService : StockService
+    private lateinit var stockRepository : StockRepository
     private lateinit var mainViewModel : MainViewModel
 
-
-    var viewState : Boolean = false
+    private var allDataViewState : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,11 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 
         setUpInstance()
+        setSwipeRefreshAction()
     }
+
+
+    /*    -- --     Data Block         --   */
 
     private fun setUpInstance() {
         // Get an Instance of Service of Retrofit
@@ -53,7 +56,12 @@ class MainActivity : ComponentActivity() {
 
         // If response is success and not null observe the result and perform UI
         mainViewModel.allStocks.observe(this) {
-            Log.e("Dhruvi in Observer ", it.toString())
+            //Stop refreshing the swiper when response received
+            if(binding.lySwipeRefresh.isRefreshing) {
+                Log.e("Dhruvi in Observer "," Refresh called to stop")
+
+                binding.lySwipeRefresh.isRefreshing = false
+            }
 
             when (it) {
                 is Response.Loading -> {
@@ -62,8 +70,8 @@ class MainActivity : ComponentActivity() {
 
                 is Response.Success -> {
                     showLoader(false)
-                    Log.e("Dhruvi in Success ", it.data!!.stocks.toString())
-                    showStockData(it.data.stocks as ArrayList<Stock>)
+                    Log.e("Dhruvi in Success ", "DATA SIZE : " + it.data!!.stocks.size.toString())
+                    showStockData(it.data.stocks.shuffled() as ArrayList<Stock>)
                 }
 
                 is Response.Error -> {
@@ -109,6 +117,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /*    -- --  Handle   UI Block         --   */
     private fun showStockData(stocks: ArrayList<Stock>) {
 
         if(stocks.size == 0){
@@ -118,7 +127,6 @@ class MainActivity : ComponentActivity() {
         }else{
             binding.cardviewNoData.visibility = View.GONE
             binding.rvStock.visibility = View.VISIBLE
-
 
             val stockAdapter = StockAdapter(stocks)
             binding.rvStock.layoutManager = LinearLayoutManager(this)
@@ -131,26 +139,38 @@ class MainActivity : ComponentActivity() {
 
     fun showMoreData(view :View) {
         showLoader(true)
-        if(viewState){
-            getStocksEmptyState()
-            viewState = false
+
+        if(allDataViewState){
+            binding.lySwipeRefresh.isEnabled = false
+            binding.lySwipeRefresh.isRefreshing = false
             binding.txtSeeData.text = this.resources.getString(R.string.see_more)
+            getStocksEmptyState()
+            allDataViewState = false
         }else{
             getStocksData()
-            viewState = true
             binding.txtSeeData.text = this.resources.getString(R.string.see_less)
+            binding.lySwipeRefresh.isEnabled = true
+            allDataViewState = true
         }
     }
 
-
-
-
-
-    fun showLoader(state: Boolean){
+    private fun showLoader(state: Boolean){
         if(state){
             binding.progressbar.visibility = View.VISIBLE
         }else{
             binding.progressbar.visibility = View.GONE
         }
     }
+
+    private fun setSwipeRefreshAction() {
+        binding.lySwipeRefresh.setOnRefreshListener{
+            if(allDataViewState){
+                binding.lySwipeRefresh.isRefreshing = true
+                getStocksData()
+            }else{
+                binding.lySwipeRefresh.isRefreshing = false
+            }
+        }
+    }
+
 }
