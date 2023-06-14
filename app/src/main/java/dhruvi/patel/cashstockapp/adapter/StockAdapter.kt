@@ -1,7 +1,7 @@
 package dhruvi.patel.cashstockapp.adapter
 
+import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +21,9 @@ import kotlin.collections.ArrayList
 class StockAdapter(private var dataSet: ArrayList<Stock>) :
     RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
-    lateinit var binding : ItemViewBinding
+    private lateinit var binding : ItemViewBinding
 
-    class ViewHolder(var view: ItemViewBinding) : RecyclerView.ViewHolder(view.root) {
-
-    }
+    class ViewHolder(var view: ItemViewBinding) : RecyclerView.ViewHolder(view.root)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -41,7 +39,7 @@ class StockAdapter(private var dataSet: ArrayList<Stock>) :
         viewHolder.view.valCurrentPrice.text = getStockPrice(dataSet[position])
         viewHolder.view.valLastUpdate.text = getStockLastUpdateData(dataSet[position])
 
-        if(dataSet[position].quantity!! != null){
+        if(dataSet[position].quantity != null){
             viewHolder.view.valQuantity.text = dataSet[position].quantity.toString()
         }else{
             viewHolder.view.lblQuantity.visibility = View.GONE
@@ -62,7 +60,7 @@ class StockAdapter(private var dataSet: ArrayList<Stock>) :
         )
     }
 
-    private fun getStockPrice(stock: Stock): CharSequence? {
+    private fun getStockPrice(stock: Stock): CharSequence {
         val currentPrice = NumberFormat
             .getCurrencyInstance(Locale.US)
             .format(stock.current_price_cents.toDouble() / 100)
@@ -74,6 +72,7 @@ class StockAdapter(private var dataSet: ArrayList<Stock>) :
     override fun getItemCount() =  dataSet.size
 
     // filtering our recyclerview items.
+    @SuppressLint("NotifyDataSetChanged")
     fun showFilteredData(filterDataList : ArrayList<Stock>){
         dataSet = filterDataList
         notifyDataSetChanged()

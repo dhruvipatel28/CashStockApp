@@ -6,7 +6,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.activity.ComponentActivity
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dhruvi.patel.cashstockapp.adapter.StockAdapter
@@ -55,7 +54,7 @@ class MainActivity : ComponentActivity() {
             }
             override fun onQueryTextChange(searchText: String): Boolean {
 
-                if(searchText.isNullOrEmpty()){
+                if(searchText.isEmpty()){
                     Log.e("Main Activity", " text is empty")
 
                     binding.cardviewNoData.visibility = View.GONE

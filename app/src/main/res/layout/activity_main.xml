@@ -119,5 +119,7 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:textSize="20sp" />
+
+
     </RelativeLayout>
 </layout>
